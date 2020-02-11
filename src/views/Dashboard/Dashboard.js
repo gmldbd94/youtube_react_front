@@ -25,6 +25,7 @@ import RankList from '../../Components/Rank/RankList';
 import ShowInfoContainer from '../../containers/Rank/ShowInfoContainer';
 import RankListContainer from '../../containers/Rank/RankListContainer';
 import RankList_COPY from '../../Components/Rank/RankList_COPY';
+import Category from '../../Components/Rank/category';
 class Dashboard extends Component {
 
   //검색 관련
@@ -38,7 +39,7 @@ class Dashboard extends Component {
     const { sort, category, keyword } = this.props
     return `?sort=${sort}&category=${category}&keyword=${keyword}&page=1`
   }
-  
+
   //info모달 관련
   handleModal = (e) => {
     const { value, name } = e.target;
@@ -101,6 +102,11 @@ class Dashboard extends Component {
                 <ButtonToggle value="videoCount" name="sort" onClick={this.handleChange}>
                   영상수
                 </ButtonToggle>
+                <Row>
+                  <Col>
+                    <Category/>
+                  </Col>
+                </Row>
               </CardBody>    
             </Card>
           </Col>

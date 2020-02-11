@@ -57,7 +57,7 @@ class DefaultLayout extends Component {
                     ) : (null);
                   })}
                   {/* 해당 대쉬보드 */}
-                  <Redirect from="/" to="/dashboard" />
+                  {/* <Redirect from="/" to="/dashboard" /> */}
                 </Switch>
               </Suspense>
             </Container>

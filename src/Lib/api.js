@@ -15,6 +15,7 @@ export const getRankList = ({sort, category, keyword, page=1}) => {
     return api.get(`/${sort}/${category}/${keyword}/${page}`);
 }
 
-export const showInfoModal = ({youtube_id}) => {
-  return api.get(`/0/0/진용진/1`);
+//모달기능
+export const showInfo = ({youtube_id}) => {
+  return api.get(`/youtuber/${youtube_id}`);
 }

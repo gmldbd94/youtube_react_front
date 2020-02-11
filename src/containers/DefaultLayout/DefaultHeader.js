@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { AppAsideToggler, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 import logo from '../../assets/img/brand/youtube.jpeg'
 import sygnet from '../../assets/img/brand/sygnet.svg'
+import Banner from '../../Components/Common/Banner';
 
 const propTypes = {
   children: PropTypes.node,
@@ -26,14 +27,13 @@ class DefaultHeader extends Component {
           full={{ src: logo, width: 89, height: 50, alt: 'CoreUI Logo' }}
           minimized={{ src: sygnet, width: 30, height: 30, alt: 'CoreUI Logo' }}
         />
-        <Nav className="d-md-down-none" navbar>
+        <Nav className="d-sm-down-none" navbar>
           <NavItem className="px-3">
             <NavLink to="/dashboard" className="nav-link" >Dashboard</NavLink>
           </NavItem>
           <NavItem className="px-3">
             <Link to="/users" className="nav-link">등록된 유튜버</Link>
           </NavItem>
-         
         </Nav>
         <Nav className="ml-auto" navbar>
           <UncontrolledDropdown nav direction="down">
@@ -45,7 +45,6 @@ class DefaultHeader extends Component {
           </UncontrolledDropdown>
         </Nav>
         <AppAsideToggler className="d-md-down-none" />
-
       </React.Fragment>
     );
   }
