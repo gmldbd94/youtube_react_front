@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { mapToCssModules } from 'reactstrap/lib/utils';
+import styled from 'styled-components';
+const RedSpan = styled.span `
+  color: "#CC0000l";
+`;
+const BlueSpan = styled.span `
+  color: "#065FD4";
+`;
 
 const propTypes = {
   children: PropTypes.node,
@@ -14,7 +21,10 @@ const defaultProps = {
   dataBox: () => ({ variant: 'facebook', friends: '-', feeds: '-' }),
 };
 
+
 class Widget03 extends Component {
+
+  
   render() {
 
     // eslint-disable-next-line
@@ -24,12 +34,10 @@ class Widget03 extends Component {
     const data = dataBox();
     const variant = data.variant;
 
-    if (!variant || ['facebook', 'twitter', 'linkedin', 'google-plus'].indexOf(variant) < 0) {
-      return (null);
+    if (!variant ) {
+      return (null); 
     }
-
     const back = 'bg-' + variant;
-    const icon = 'fa fa-' + variant;
     const keys = Object.keys(data);
     const vals = Object.values(data);
 
@@ -41,7 +49,6 @@ class Widget03 extends Component {
     return (
       <div className={classes}>
         <div className={classCardHeader}>
-          <i className={icon}></i>
           {children}
         </div>
         <div className={classCardBody}>

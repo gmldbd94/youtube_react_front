@@ -5,7 +5,6 @@ import * as modalActions from '../../store/modules/showinfoModal';
 import ShowInfoModal from '../../Components/Rank/ShowInfoModal';
 
 class ShowInfoContainer extends Component {
-
   handleCancel = () => {
     const {ModalActions} = this.props;
     ModalActions.CancelInfoModal();
@@ -28,8 +27,8 @@ class ShowInfoContainer extends Component {
 export default connect(
   (state) => (
     {    
-    visible: state.showinfoModal.get('visible'),
-    info: state.showinfoModal.get('info'),
+    visible: state.modal.get('visible'),
+    info: state.modal.get('info'),
   }),
  (dispatch) => ({
     ModalActions: bindActionCreators(modalActions, dispatch)

@@ -23,8 +23,6 @@ import * as listActions from '../../store/modules/list';
 import * as modalActions from '../../store/modules/showinfoModal';
 import RankList from '../../Components/Rank/RankList';
 import ShowInfoContainer from '../../containers/Rank/ShowInfoContainer';
-import RankListContainer from '../../containers/Rank/RankListContainer';
-import RankList_COPY from '../../Components/Rank/RankList_COPY';
 import Category from '../../Components/Rank/category';
 class Dashboard extends Component {
 
@@ -156,7 +154,8 @@ class Dashboard extends Component {
 }
 
 export default connect(
-  (state) => ({
+  (state) => (
+    {
     maxPage: state.list.get('maxPage'),
     lists: state.list.get('lists'),
     sort: state.list.get('sort'),

@@ -1,0 +1,21 @@
+export default {
+  Green: "#32C12C",
+  Teal: "#009888",
+  Blue: "#526EFF",
+  Purple: "#7F4FC9",
+  LightGreen: "#87C735",
+  Lime: "#CDE000",
+  LightBlue: "#00A5F9",
+  Cyan: "#00BCD9",
+  DeepPurple: "#682CBF",
+  Yellow: "#FFEF00",
+  Orange: "#FFA9A00",
+  LigthRed: "#FF9A00",
+  Brown: "#7C5547",
+  BlueGrey: "#5F7D8E",
+  Amber: "#FFCD00",
+  DeepOrange: "#FF5500",
+  Red: "#D40C00",
+  DeepBrown: "#50342C",
+  Grey: "#9E9E9E"
+};

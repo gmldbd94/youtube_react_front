@@ -1,8 +1,8 @@
 import React from 'react';
-import { CardGroup, Col, Row } from 'reactstrap';
+import { CardGroup} from 'reactstrap';
 
 import { Widget04 } from '../Widgets';
-import { Line } from 'react-chartjs-2';
+
 
 const Info_Widgets = () => {
   

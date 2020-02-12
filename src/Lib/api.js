@@ -16,6 +16,16 @@ export const getRankList = ({sort, category, keyword, page=1}) => {
 }
 
 //모달기능
-export const showInfo = ({youtube_id}) => {
-  return api.get(`/youtuber/${youtube_id}`);
+export const showInfo = ({youtuber_id}) => {
+  return api.get(`/youtuber/${youtuber_id}`);
+}
+
+export const login = ({id, pw}) => {
+  api.options({
+    body:{
+      'id' : `${id}`,
+      'pw' : `${pw}`
+    }
+  })
+  return api.post(`/auth/signin`);
 }

@@ -1,22 +1,29 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, Table } from 'reactstrap';
 import Avatar from '../Common/Avatar';
-import styled from 'styled-components';
-import SimpleDate from '../Hook/SimpleDate';
-const Wrapper =  styled.div`
-  min-height: 20vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 10px;
-`;
-
-const Channel_info = () => {
-  const sample={
-    img:"https://yt3.ggpht.com/a/AGF-l78nWFFcfHTnmj09ouv0pDyqKS3rI4bLs7sCbw=s88-c-k-c0xffffffff-no-rj-mo",
+import Wrapper from '../Common/Wrapper';
+import {format_date, simple_count} from '../Hook/SimpleData';
+const Channel_info = ({data}) => {
+  let sample;
+  if(data){
+    console.log(data.createAt);
+    sample = {
+      channel_name: data.channel_name,
+      img: data.img,
+      viewCount: simple_count(data.viewCount),
+      subCount: simple_count(data.subCount),
+      videoCount: data.videoCount,
+      id: data.id,
+      createAt: format_date(data.createdAt),
+      publishAt: format_date(data.publishedAt),
+      category: data.category,
+    }
+  }else{
+    sample ={
+      img : "null"
+    }
   }
-  SimpleDate();
+  
   return(
     <Card>
       <CardHeader>
@@ -31,23 +38,31 @@ const Channel_info = () => {
             <tbody>
               <tr>
                 <td>채널</td>
-                <td>융융이'Channel</td>
+                <td>{sample.channel_name}</td>
               </tr>
               <tr>
                 <td>채널 개설</td>
-                <td>2019-01-01</td>
+                <td>{sample.publishAt}</td>
               </tr>
               <tr>
                 <td>구독자</td>
-                <td>100K</td>
+                <td>{sample.subCount}</td>
               </tr>
               <tr>
                 <td>조회수</td>
-                <td>200K</td>
+                <td>{sample.viewCount}</td>
               </tr>
               <tr>
                 <td>영상</td>
-                <td>10K</td>
+                <td>{sample.videoCount}</td>
+              </tr>
+              <tr>
+                <td>카테고리</td>
+                <td>{sample.category}</td>
+              </tr>
+              <tr>
+                <td>업데이트 일시</td>
+                <td>{sample.createAt}</td>
               </tr>
             </tbody>
           </Table>

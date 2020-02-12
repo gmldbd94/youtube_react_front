@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SimpleDate from '../Hook/SimpleDate';
+import { format_date } from '../Hook/SimpleData';
 const RankItem = ({list}) => {
   const linkURL = (id) => {
     return(`/user/${id.id}`);
@@ -21,13 +21,14 @@ const RankItem = ({list}) => {
     id, 
     createAt, 
     category,
-    maxPage} = list.toJS()
+    } = list.toJS()
   //시간 값 변경
-  const set_publishedAt = SimpleDate(publishedAt)
+  const set_publishedAt = format_date(publishedAt);
+  const set_createAt = format_date(createAt);
   
     return (
       <tr>
-        <td className="text-center">
+        <td key={_id} className="text-center">
           <div>
             <span>{VF_rank}</span>
           </div>
@@ -49,7 +50,7 @@ const RankItem = ({list}) => {
         <td className="text-center">
           <div><Link to={linkURL({id})}>{channel_name}</Link></div>
           <div className="small text-muted">
-            개설일자: {set_publishedAt}
+            개설일자: {set_publishedAt} / 업데이트 일자: {set_createAt}
           </div>
           
         </td>
