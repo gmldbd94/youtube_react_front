@@ -1,10 +1,37 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component, useEffect } from 'react';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as authActions from '../../../store/modules/auth';
+
+import { Link, Redirect } from 'react-router-dom';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
-import * as api from '../../../Lib/api';
+
 class Login extends Component {
+  //input창 바꿨을 때
+  handleChange = (e) => {
+    const form = "login"
+    const {value, name} = e.target;
+    const {AuthActions} = this.props;
+    AuthActions.changeInput({value, name, form});
+  }
+
+  handleonSubmit = (e) => {
+    e.preventDefault();
+    const {id, pw} = this.props;
+    const {AuthActions} = this.props;
+
+    AuthActions.login({id, pw})
+    .then(()=>{
+      this.props.history.push('/')
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
+  };
   
   render() {
+    console.log("login_props", this.props);
     return (
       <div className="app flex-row align-items-center">
         <Container>
@@ -22,7 +49,7 @@ class Login extends Component {
                             <i className="icon-user"></i>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input type="text" placeholder="Username" autoComplete="username" />
+                        <Input onChange={this.handleChange} type="text" placeholder="ID" autoComplete="username" name="id" />
                       </InputGroup>
                       <InputGroup className="mb-4">
                         <InputGroupAddon addonType="prepend">
@@ -30,14 +57,11 @@ class Login extends Component {
                             <i className="icon-lock"></i>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input type="password" placeholder="Password" autoComplete="current-password" />
+                        <Input onChange={this.handleChange} type="password" placeholder="Password" autoComplete="current-password" name="pw"/>
                       </InputGroup>
                       <Row>
                         <Col xs="6">
-                          <Button color="primary" className="px-4">Login</Button>
-                        </Col>
-                        <Col xs="6" className="text-right">
-                          <Button color="link" className="px-0">Forgot password?</Button>
+                          <Button onClick={this.handleonSubmit} color="primary" className="px-4">Login</Button>
                         </Col>
                       </Row>
                     </Form>
@@ -64,4 +88,12 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default connect(
+  (state) => ({
+    id: state.auth.getIn(['login', 'id']),
+    pw: state.auth.getIn(['login','pw']),
+  }),
+  (dispatch) => ({
+    AuthActions: bindActionCreators(authActions, dispatch)
+  })
+)(Login);

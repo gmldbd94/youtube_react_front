@@ -5,7 +5,10 @@ import classNames from 'classnames';
 import { mapToCssModules } from 'reactstrap/lib/utils';
 
 const propTypes = {
-  header: PropTypes.string,
+  header: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]),
   icon: PropTypes.string,
   color: PropTypes.string,
   value: PropTypes.string,
@@ -16,7 +19,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  header: '87.500',
+  header: '0',
   icon: 'icon-people',
   color: 'info',
   value: '25',

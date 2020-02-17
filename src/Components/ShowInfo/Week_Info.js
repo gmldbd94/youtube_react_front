@@ -3,43 +3,80 @@ import { Line } from 'react-chartjs-2';
 import { Widget03 } from '../Widgets';
 import { Card, CardBody, CardHeader, Col, Row } from 'reactstrap';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { make_week_array } from '../Hook/SimpleData';
 
-const Week_info = () => {
-  const makeLineData = () => {
-    const week_date = make_week_array();
-    const labels = week_date;
-    const datasets = [{
-      label: 'My First dataset',
-      fill: true,
-      lineTension: 0.1,
-      backgroundColor: 'rgba(75,192,192,0.4)',
-      borderColor: 'rgba(75,192,192,1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(75,192,192,1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 1,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
-      data: [65, 59, 80, 81, 56, 55, 40]
-    }];
+import { fromJS, List } from 'immutable';
+import { make_week_array } from '../Hook/SimpleData';
+import color from '../../Styles/BrandColor';
+
+const Week_info = ({data}) => {
+  const makeLineData = (mainColor, key, {data}) => {
+    
+    let datasets
+    const labels = make_week_array();
+    if({data}){
+      const list = List(fromJS(data));
+      datasets = [{
+        label: '주간 구독자 그래프',
+        fill: true,
+        lineTension: 0.1,
+        backgroundColor: null,
+        borderColor: mainColor,
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: mainColor,
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: [ data[6] ? list.getIn([6, key]) : 0,
+                data[5] ? list.getIn([5, key]) : 0,
+                data[4] ? list.getIn([4, key]) : 0,
+                data[3] ? list.getIn([3, key]) : 0,
+                data[2] ? list.getIn([2, key]) : 0,
+                data[1] ? list.getIn([1, key]) : 0,
+                data[0] ? list.getIn([0, key]) : 0]
+      }];
+    }
+    else{
+      datasets = {
+
+      }
+    }
     return({ labels: labels, datasets: datasets})
   }
 
   const options = {
     tooltips: {
       enabled: false,
-      custom: CustomTooltips
+      custom: CustomTooltips,
     },
     maintainAspectRatio: false
   }
+
+  // 증가수 및 증가율 조사
+  const UPcount = ({data}, key) => {
+    const list = List(fromJS(data));
+    const object1 = data[6] ? list.getIn([6, key]) : 0;
+    const object2 = data[0] ? list.getIn([0, key]) : 0;
+    const result = object2 - object1;
+    return result;
+  }
+
+  const UPscale = ({data}, key) => {
+    const list = List(fromJS(data));
+    const object1 = data[6] ? list.getIn([6, key]) : 1;
+    const object2 = data[0] ? list.getIn([0, key]) : 0;
+    const result = (object2 - object1)/object1 /100 ;
+    
+    return result;
+  }
+
   return(
     <Card>
       <CardHeader>
@@ -48,27 +85,27 @@ const Week_info = () => {
       <CardBody>
         <Row>
         <Col xs={12} sm={12} md={12}>
-          <Widget03 dataBox={() => ({ variant: 'skype', 구독자증가: '89k', 구독자증가율: '459' })} >
-              <Line data={makeLineData()} options={options}  height={100} width={400}/>
+          <Widget03 dataBox={() => ({ variant: 'skype', 구독자증가: UPcount({data}, "subCount"), 구독자증가율: UPscale({data}, "subCount")+"%" })} >
+              <Line data={makeLineData(color.LigthRed, "subCount", {data})} options={options}  height={100} width={400}/>
           </Widget03>
         </Col>
       </Row>
       <Row>
       <Col xs={12} sm={12} md={12}>
-        <Widget03 dataBox={() => ({ variant: 'skype', 조회수증가: '500+', 조회수증가율: '292' })} >
+        <Widget03 dataBox={() => ({ variant: 'skype', 조회수증가: UPcount({data}, "viewCount"), 조회수증가율: UPscale({data}, "viewCount")+"%" })} >
           <div>
-            <Line data={makeLineData()} options={options} height={100} width={400}/>
+            <Line data={makeLineData(color.Teal, "viewCount", {data})} options={options} height={100} width={400}/>
           </div>
         </Widget03>
       </Col>
       </Row>
       <Row>
         <Col xs={12} sm={12} md={12}>
-          <Widget03 dataBox={() => ({ variant: 'skype', 좋아요증가: '973k', 좋아요증가율: '1.792' })} >
+          {/* <Widget03 dataBox={() => ({ variant: 'skype', 좋아요증가: '973k', 좋아요증가율: '1.792' })} >
             <div >
-              <Line data={makeLineData()} options={options} height={100} width={400}/>
+              <Line data={makeLineData(color.Cyan)} options={options} height={100} width={400}/>
             </div>
-          </Widget03>
+          </Widget03> */}
         </Col>
       </Row>
       </CardBody>

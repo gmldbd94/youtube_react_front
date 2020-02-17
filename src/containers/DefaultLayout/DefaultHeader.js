@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { UncontrolledDropdown,  DropdownToggle, Nav, NavItem } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-import { AppAsideToggler, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
+import { AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 import logo from '../../assets/img/brand/youtube.jpeg'
 import sygnet from '../../assets/img/brand/sygnet.svg'
-import Banner from '../../Components/Common/Banner';
+import * as api from '../../Lib/api';
+import { Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem } from 'reactstrap';
 
 const propTypes = {
   children: PropTypes.node,
 };
+
+const handleLogout = (e) => (
+  api.logout()
+)
+
 
 const defaultProps = {};
 
@@ -42,9 +47,14 @@ class DefaultHeader extends Component {
                 관리자
               </span>
             </DropdownToggle>
+            <DropdownMenu right>
+              <DropdownItem divider />
+              <DropdownItem><Link to="/login"><i className="fa fa-shield"></i>Login</Link></DropdownItem>
+              <DropdownItem><Link to="/register"><i className="fa fa-user"></i>Register</Link></DropdownItem>
+              <DropdownItem onClick={handleLogout}><i className="fa fa-lock"></i> Logout</DropdownItem>
+            </DropdownMenu>
           </UncontrolledDropdown>
-        </Nav>
-        <AppAsideToggler className="d-md-down-none" />
+        </Nav>        
       </React.Fragment>
     );
   }

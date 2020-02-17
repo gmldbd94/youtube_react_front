@@ -19,12 +19,12 @@ const RankItem = ({list}) => {
     country, 
     _id, 
     id, 
-    createAt, 
+    createdAt, 
     category,
     } = list.toJS()
   //시간 값 변경
   const set_publishedAt = format_date(publishedAt);
-  const set_createAt = format_date(createAt);
+  const set_createAt = format_date(createdAt);
   
     return (
       <tr>

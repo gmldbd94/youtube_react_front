@@ -1,7 +1,7 @@
 //2020-02-10T06:03:03.683Z
 export const format_date = (date) => {
   const fd = new Date(date) //fommat_date
-  const setting_date =  fd.getFullYear() + '-' + (fd.getMonth()+1) + '-' + fd.getDate();
+  const setting_date =  fd.getFullYear() + '/' + (fd.getMonth()+1) + '/' + fd.getDate();
   return setting_date;
 };
 
@@ -34,7 +34,7 @@ export const comma = (num) => {
   len = num.length;
   str = num.substring(0, point); 
     while (point < len) { 
-        if (str != "") str += ","; 
+        if (str !== "") str += ","; 
         str += num.substring(point, point + 3); 
         point += 3; 
     } 

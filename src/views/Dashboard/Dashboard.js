@@ -24,18 +24,24 @@ import * as modalActions from '../../store/modules/showinfoModal';
 import RankList from '../../Components/Rank/RankList';
 import ShowInfoContainer from '../../containers/Rank/ShowInfoContainer';
 import Category from '../../Components/Rank/category';
+import Wrapper from '../../Components/Common/Wrapper';
 class Dashboard extends Component {
 
-  //검색 관련
+  //sort 관련
   handleChange = (e) => {
     const { value, name } = e.target;
     const { ListActions } = this.props;
+    e.preventDefault();
+    console.log({value, name}, e.currentTarget);
     ListActions.changeRank({value, name});
+    if(name !== 'keyword'){
+      this.getRankList();
+    }
   }
   //경로
   createPagePath = () => {
-    const { sort, category, keyword } = this.props
-    return `?sort=${sort}&category=${category}&keyword=${keyword}&page=1`
+    const { sort, category, keyword, page } = this.props
+    return `?sort=${sort}&category=${category}&keyword=${keyword}&page=${page}`
   }
 
   //info모달 관련
@@ -56,7 +62,9 @@ class Dashboard extends Component {
   }
 
   componentDidUpdate(prevProps, preState) {
-    if(prevProps.page !== this.props && prevProps.keyword !== this.props.keyword && prevProps.sort !== this.props.sort){
+    if(prevProps.page !== this.props &&
+       prevProps.keyword !== this.props.keyword &&
+      prevProps.sort !== this.props.sort){
       this.getRankList();
       document.documentElement.scrollTop = 0;
     }
@@ -65,7 +73,7 @@ class Dashboard extends Component {
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
   
   render() {
-    console.log("랜더링한 내용",this.props);
+    console.log("랜더링한 내용",this.props,"local", localStorage);
     return (
       <div className="animated fadeIn">
         <ShowInfoContainer/>
@@ -102,7 +110,7 @@ class Dashboard extends Component {
                 </ButtonToggle>
                 <Row>
                   <Col>
-                    <Category/>
+                    <Category handleChange= {this.handleChange}/>
                   </Col>
                 </Row>
               </CardBody>    
@@ -134,13 +142,16 @@ class Dashboard extends Component {
                 <Container>
                   <Row>
                     <Col sm="12" md={{ size: 4, offset:4 }}>
-                      <PaginationView 
-                        page={this.props.page} 
-                        maxPage={this.props.maxPage}
-                        sort={this.props.sort}
-                        category={this.props.category}
-                        keyword={this.props.keyword}
-                      />
+                      <Wrapper>
+                        <PaginationView 
+                          page={this.props.page} 
+                          maxPage={this.props.maxPage}
+                          sort={this.props.sort}
+                          category={this.props.category}
+                          keyword={this.props.keyword}
+                          onClick={this.handleChange}
+                        />
+                      </Wrapper>
                     </Col>
                   </Row>
                 </Container>

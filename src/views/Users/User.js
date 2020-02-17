@@ -30,8 +30,10 @@ class User extends Component {
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
   
   render() {
+    
     const info = this.props.info.toJS();
-    console.log(info);
+    const {max_view, max_like, max_dislike, max_comment} = this.props;
+    console.log("user_comment", max_comment);
     return (
       <div className="animated fadeIn">
         <Row>
@@ -45,7 +47,12 @@ class User extends Component {
             <ChartInfo data={info}/>
           </Col>
         </Row>
-        <InfoWidgets/>
+        <InfoWidgets 
+          max_view={max_view} 
+          max_like={max_like}
+          max_dislike={max_dislike}
+          max_comment={max_comment}
+          />
       </div>
     )
   }
@@ -54,7 +61,10 @@ class User extends Component {
 export default connect(
   (state) => ({
         info: state.info.get('info'),
-        youtuber_id: state.info.get('youtuber_id')
+        max_view: state.info.get('max_view'),
+        max_like: state.info.get('max_like'),
+        max_dislike: state.info.get('max_dislike'),
+        max_comment: state.info.get('max_comment')
     //연결할 데이터
   }),
   (dispatch) => ({

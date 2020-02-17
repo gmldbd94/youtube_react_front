@@ -3,31 +3,29 @@ import { Line } from 'react-chartjs-2';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { make_week_array } from '../Hook/SimpleData';
-
+import color from '../../Styles/BrandColor';
 const line = (data) => {
   let chart_data;
   if(data.length>0){
-    console.log("data", data);
-    console.log("line",data[0].VF_rank);
-
     chart_data = {
       labels: make_week_array(),
       datasets: [
         {
+          order: -1,
           label: '시청자선호지수',
           fill: false,
           lineTension: 0.1,
           backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: 'rgba(75,192,192,0.4)',
+          borderColor: color.LightBlue,
           borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: 'miter',
           pointBorderColor: 'rgba(75,192,192,1)',
           pointBackgroundColor: '#fff',
-          pointBorderWidth: 0.5,
+          pointBorderWidth: 1,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+          pointHoverBackgroundColor: color.LightBlue,
           pointHoverBorderColor: 'rgba(220,220,220,1)',
           pointHoverBorderWidth: 2,
           pointRadius: 1,
@@ -41,11 +39,12 @@ const line = (data) => {
                   data[0] ? data[0].VF_rank : 0]
         },
         {
+          order: -1,
           label: '시청자평가지수',
           fill: false,
           lineTension: 0.05,
           backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: 'rgba(75,192,192,1)',
+          borderColor: color.LightGreen,
           borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
@@ -54,7 +53,7 @@ const line = (data) => {
           pointBackgroundColor: '#fff',
           pointBorderWidth: 1,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+          pointHoverBackgroundColor: color.LightGreen,
           pointHoverBorderColor: 'rgba(220,220,220,1)',
           pointHoverBorderWidth: 2,
           pointRadius: 1,
@@ -68,11 +67,12 @@ const line = (data) => {
                   data[0] ? data[0].VE_rank : 0]
         },
         {
+          order: -1,
           label: '시청자소통지수',
           fill: false,
           lineTension: 0.05,
           backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: 'rgba(75,192,192,1)',
+          borderColor: color.Amber,
           borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
@@ -81,7 +81,7 @@ const line = (data) => {
           pointBackgroundColor: '#fff',
           pointBorderWidth: 1,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+          pointHoverBackgroundColor: color.Amber,
           pointHoverBorderColor: 'rgba(220,220,220,1)',
           pointHoverBorderWidth: 2,
           pointRadius: 1,
@@ -95,11 +95,12 @@ const line = (data) => {
                   data[0] ? data[0].VC_rank : 0]
         },
         {
-          label: '우스크리에이터지수',
+          order: 1,
+          label: '우수크리에이터지수',
           fill: false,
           lineTension: 0.05,
           backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: '#008eef',
+          borderColor: color.LigthRed,
           borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
@@ -108,7 +109,7 @@ const line = (data) => {
           pointBackgroundColor: '#fff',
           pointBorderWidth: 1,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+          pointHoverBackgroundColor: color.LigthRed,
           pointHoverBorderColor: 'rgba(220,220,220,1)',
           pointHoverBorderWidth: 2,
           pointRadius: 1,
@@ -141,7 +142,6 @@ const options = {
   maintainAspectRatio: false
 }
 const ChartLine = ({data}) => {
-  console.log("ChartLine",{data});
   return(
     <Card>
       <CardHeader>
