@@ -16,14 +16,40 @@ export const make_week_array = () => {
 
 export const simple_count = (count) => {
   if(count > 1000000){
-    const fix_num = Math.round(count/1000000)
+    const fix_num = Math.round(count/100000)/10
     return(fix_num + "M");
   }
-  if(count > 1000){
+  if(count > 10000){
     const fix_num = (count/1000).toFixed(2)
     return(fix_num + "K");
   }else{
     return comma(count);
+  }
+}
+
+export const simple_number = (count) => {
+  if(count > 1000000){
+    const fix_num = Math.round(count/100000)/10
+    return(fix_num);
+  }
+  if(count > 10000){
+    const fix_num = (count/1000).toFixed(2)
+    return(fix_num);
+  }else{
+    return count;
+  }
+}
+
+export const check_amount = (count) => {
+  if(count > 1000000){
+    const fix_num = Math.round(count/100000)/10
+    return("100만");
+  }
+  if(count > 10000){
+    const fix_num = (count/1000).toFixed(2)
+    return("천");
+  }else{
+    return("일");
   }
 }
 

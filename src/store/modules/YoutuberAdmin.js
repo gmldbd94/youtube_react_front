@@ -30,12 +30,12 @@ const initialState = Map({
 
 // reducer
 export default handleActions({
-  [INITIALIZE]: (state, action) => initialState,
+
   [ADD_YOUTUBER]: (state, action) => {
-    
+    console.log(action);
   },
   [EDIT_YOUTUBER]: (state, action) => {
-
+    console.log(action);
   },
   [REMOVE_YOUTUBER]: (state, action) => {
 

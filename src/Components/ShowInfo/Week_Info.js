@@ -9,14 +9,14 @@ import { make_week_array } from '../Hook/SimpleData';
 import color from '../../Styles/BrandColor';
 
 const Week_info = ({data}) => {
-  const makeLineData = (mainColor, key, {data}) => {
+  const makeLineData = (mainColor, key, {data}, {label}) => {
     
     let datasets
     const labels = make_week_array();
     if({data}){
       const list = List(fromJS(data));
       datasets = [{
-        label: '주간 구독자 그래프',
+        label: label,
         fill: true,
         lineTension: 0.1,
         backgroundColor: null,
@@ -53,9 +53,10 @@ const Week_info = ({data}) => {
 
   const options = {
     tooltips: {
-      enabled: false,
-      custom: CustomTooltips,
+      enabled: true,
     },
+    
+    
     maintainAspectRatio: false
   }
 
@@ -72,7 +73,7 @@ const Week_info = ({data}) => {
     const list = List(fromJS(data));
     const object1 = data[6] ? list.getIn([6, key]) : 1;
     const object2 = data[0] ? list.getIn([0, key]) : 0;
-    const result = (object2 - object1)/object1 /100 ;
+    const result = Math.round((object2-object1)/object1*100) ;
     
     return result;
   }
@@ -86,28 +87,19 @@ const Week_info = ({data}) => {
         <Row>
         <Col xs={12} sm={12} md={12}>
           <Widget03 dataBox={() => ({ variant: 'skype', 구독자증가: UPcount({data}, "subCount"), 구독자증가율: UPscale({data}, "subCount")+"%" })} >
-              <Line data={makeLineData(color.LigthRed, "subCount", {data})} options={options}  height={100} width={400}/>
+              <Line data={makeLineData(color.LigthRed, "subCount", {data}, {label: "주간 구독자수"})} options={options} height={200} width={400} />
           </Widget03>
         </Col>
-      </Row>
-      <Row>
-      <Col xs={12} sm={12} md={12}>
-        <Widget03 dataBox={() => ({ variant: 'skype', 조회수증가: UPcount({data}, "viewCount"), 조회수증가율: UPscale({data}, "viewCount")+"%" })} >
-          <div>
-            <Line data={makeLineData(color.Teal, "viewCount", {data})} options={options} height={100} width={400}/>
-          </div>
-        </Widget03>
-      </Col>
-      </Row>
-      <Row>
-        <Col xs={12} sm={12} md={12}>
-          {/* <Widget03 dataBox={() => ({ variant: 'skype', 좋아요증가: '973k', 좋아요증가율: '1.792' })} >
-            <div >
-              <Line data={makeLineData(color.Cyan)} options={options} height={100} width={400}/>
-            </div>
-          </Widget03> */}
-        </Col>
-      </Row>
+        </Row>
+        <Row>
+          <Col xs={12} sm={12} md={12}>
+            <Widget03 dataBox={() => ({ variant: 'skype', 조회수증가: UPcount({data}, "viewCount"), 조회수증가율: UPscale({data}, "viewCount")+"%" })} >
+              <div>
+                <Line data={makeLineData(color.Teal, "viewCount", {data}, {label: "주간 조회수"})} options={options} height={200} width={400} />
+              </div>
+            </Widget03>
+          </Col>
+        </Row>
       </CardBody>
     </Card>
   )

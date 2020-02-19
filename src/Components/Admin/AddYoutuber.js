@@ -16,8 +16,12 @@ import {
   Alert
 } from 'reactstrap';
 import categoryList from '../Hook/categoryList';
-
 import * as api from '../../Lib/api';
+import styled from 'styled-components';
+
+const LabelWrapper = styled.span`
+  min-width: 10vh;
+`;
 
 class AddYoutuber extends Component {
   state ={
@@ -49,7 +53,6 @@ class AddYoutuber extends Component {
 
   render(){
     return(
-      <Col xs="12" md="12">
         <Card>
           <CardHeader>
             <strong>새로운 유튜버 추가하기</strong>
@@ -61,7 +64,9 @@ class AddYoutuber extends Component {
                   <InputGroup>
                     <InputGroupAddon addonType="append">
                       <InputGroupText>
+                        <LabelWrapper>
                         <strong>유튜브 ID</strong>                   
+                        </LabelWrapper>
                       </InputGroupText>
                     </InputGroupAddon>
                     <Input type="text" id="youtuber_channel_name" name="id" placeholder="유튜브ID" onChange={this.handleChange}/>
@@ -73,7 +78,9 @@ class AddYoutuber extends Component {
                   <InputGroup>
                     <InputGroupAddon addonType="append">
                       <InputGroupText>
-                        <strong>채널명</strong>                   
+                        <LabelWrapper>
+                          <strong>채널명</strong>                   
+                        </LabelWrapper>
                       </InputGroupText>
                     </InputGroupAddon>
                     <Input type="text" id="youtuber_channel_name" name="name" placeholder="채널명" onChange={this.handleChange}/>
@@ -81,22 +88,18 @@ class AddYoutuber extends Component {
                 </Col>
                 <Col md="6">
                   <InputGroup>
-                    <Col xs="3" md="3" lg="3">
                     <InputGroupAddon addonType="append">
                       <InputGroupText>
+                      <LabelWrapper>
                         <strong>카테고리</strong>                   
+                      </LabelWrapper>
                       </InputGroupText>
-                    </InputGroupAddon>
-                    </Col>
-                    <Col xs="9" md="9" lg="9">
-                      <FormGroup>
-                        <Input type="select" name="category" id="youtuber_category" onChange={this.handleChange}>
-                          {categoryList.map((category, index) => 
-                            <option key={index} value={category}>{category}</option>
-                          )}
-                        </Input>
-                      </FormGroup>
-                    </Col>
+                    </InputGroupAddon>                    
+                      <Input type="select" name="category" id="youtuber_category" onChange={this.handleChange}>
+                        {categoryList.map((category, index) => 
+                          <option key={index} value={category}>{category}</option>
+                        )}
+                      </Input>
                   </InputGroup>
                 </Col>
               </FormGroup>
@@ -113,7 +116,6 @@ class AddYoutuber extends Component {
             </Row>
           </CardFooter>
         </Card>
-      </Col>
     )
   }
 };

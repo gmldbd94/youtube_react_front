@@ -1,26 +1,25 @@
 import React from 'react';
 
-import { Button, Row, Col } from 'reactstrap';
+import { ButtonToggle, Row, Col } from 'reactstrap';
 import styled from 'styled-components';
 import color from '../../Styles/BrandColor';
+import categoryList from '../Hook/categoryList';
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   margin: 1px;
-
   font-weight: 600;
-  border-radius: 20px;
   font-size: 12px;
+  border: 1px solid #c8ced3;
+  border-radius: 10px;
   cursor: pointer;
-  &:before{
-    background-color: ${color.LightBlue}
-  };
-  &:after {
-    background-color: ${color.Blue}
-  }
-
+  :hover {
+    background-color: #20a8d8;
+    color: white;
+		cursor: pointer;
+	}
 `;
 
 const Category_Box = styled.div`
@@ -29,28 +28,61 @@ const Category_Box = styled.div`
   margin: 1px;
 `;
 
-const Category = ({handleChange}) => {
+const Category = ({handleChange, handleDefault}) => {
   return(
     <Category_Box>
         <Row>
-          <Col><Wrapper name="category" onClick={handleChange}>라이프스타일</Wrapper></Col>
-          <Col><Wrapper name="category" onClick={handleChange}>음악/댄스</Wrapper></Col>
-          <Col><Wrapper name="category" onClick={handleChange}>영화/애니메이션</Wrapper></Col>
-          <Col><Wrapper name="category" onClick={handleChange}>키즈</Wrapper></Col>
-          <Col><Wrapper name="category" onClick={handleChange}>여행/아웃도어</Wrapper></Col>
-          <Col><Wrapper name="category" onClick={handleChange}>스포츠/건강</Wrapper></Col>
-          <Col><Wrapper name="category" onClick={handleChange}>뉴스/정치/이슈</Wrapper></Col>
-          <Col><Wrapper name="category" onClick={handleChange}>기관/단체/정부</Wrapper></Col>
+          <Col lg={3} md={6} xs={12}>
+            <Wrapper value="VF_index" name="sort" onClick={handleChange}>
+              시청자선호지수
+            </Wrapper>
+          </Col>
+          <Col lg={3} md={6} xs={12}>
+            <Wrapper value="VE_index" name="sort" onClick={handleChange}>
+              시청자평가지수
+            </Wrapper>
+          </Col>
+          <Col lg={3} md={6} xs={12}>
+            <Wrapper value="VC_index" name="sort" onClick={handleChange}>
+              시청자소통지수
+            </Wrapper>
+          </Col>
+          <Col lg={3} md={6} xs={12}>
+            <Wrapper value="BC_index" name="sort" onClick={handleChange}>
+              우수크리에이터지수
+            </Wrapper>
+          </Col>
         </Row>
         <Row>
-          <Col><Wrapper name="category" onClick={handleChange}>엔터테인먼트</Wrapper></Col>
-          <Col><Wrapper name="category" onClick={handleChange}>푸드</Wrapper></Col>
-          <Col><Wrapper name="category" onClick={handleChange}>인물/유명인</Wrapper></Col>
-          <Col><Wrapper name="category" onClick={handleChange}>IT/기술/과학</Wrapper></Col>
-          <Col><Wrapper name="category" onClick={handleChange}>동물/취미</Wrapper></Col>
-          <Col><Wrapper name="category" onClick={handleChange}>차/배/바이크</Wrapper></Col>
-          <Col><Wrapper name="category" onClick={handleChange}>금융/재태크</Wrapper></Col>
-          <Col><Wrapper name="category" onClick={handleChange}>교육/강의</Wrapper></Col>
+          <Col lg={4} md={4} xs={4}>
+            <Wrapper value="viewCount" name="sort" onClick={handleChange}>
+              조회수
+            </Wrapper>
+          </Col>
+          <Col lg={4} md={4} xs={4}>
+            <Wrapper value="subCount" name="sort" onClick={handleChange}>
+              구독자
+            </Wrapper>
+          </Col>
+          <Col lg={4} md={4} xs={4}>
+            <Wrapper value="videoCount" name="sort" onClick={handleChange}>
+              영상수
+            </Wrapper>
+          </Col>
+        </Row>
+        <Row>
+          {categoryList.map((category, index) => 
+            <Col md={2} xs={6} key={index}>
+              <Wrapper name="category" value={category} onClick={handleChange}>{category}</Wrapper>
+            </Col>
+          )}
+        </Row>
+        <Row>
+          <Col lg={12} md={12} xs={12}>
+            <Wrapper onClick={handleDefault}>
+              초기화
+            </Wrapper>
+          </Col>
         </Row>
     </Category_Box>     
   )

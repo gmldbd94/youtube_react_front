@@ -15,6 +15,11 @@ import {
 import routes from '../../routes';
 import Banner from '../../Components/Banner';
 
+//auth redux
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as authAction from '../../store/modules/auth';
+
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
@@ -23,17 +28,26 @@ class DefaultLayout extends Component {
 
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
-  signOut(e) {
-    e.preventDefault()
-    this.props.history.push('/login')
+  logout = async (e) => {
+    e.preventDefault();
+    const { AuthActions } = this.props;
+    await AuthActions.logout();
+    window.location.href = "/";
   }
-
+  check_login = async () => {
+    const { AuthActions } = this.props;
+    AuthActions.checkLogin();
+  }
+  componentDidMount(){
+    this.check_login();
+  }
+  
   render() {
     return (
       <div className="app">
         <AppHeader fixed>
           <Suspense  fallback={this.loading()}>
-            <DefaultHeader onLogout={e=>this.signOut(e)}/>
+            <DefaultHeader onLogout={this.logout} isAuthenticated={this.props.isAuthenticated}/>
           </Suspense>
         </AppHeader>
         <Banner text={"안녕하세요"}/>
@@ -72,5 +86,15 @@ class DefaultLayout extends Component {
     );
   }
 }
+export default connect(
+  (state) => ({
+    message: state.auth.get('message'),
+    authError: state.auth.get('authError'),
+    isAuthenticated: state.auth.get('isAuthenticated'),
+    token: state.auth.get('token'),
+  }),
+  (dispatch) => ({
+    AuthActions: bindActionCreators(authAction, dispatch)
+  })
+)(DefaultLayout);
 
-export default DefaultLayout;

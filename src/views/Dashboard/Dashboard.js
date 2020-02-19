@@ -13,7 +13,6 @@ import {
   Input,
   InputGroupAddon,
   Button,
-  ButtonToggle
 } from 'reactstrap';
 
 import PaginationView from '../../Components/Pagination';
@@ -28,16 +27,31 @@ import Wrapper from '../../Components/Common/Wrapper';
 class Dashboard extends Component {
 
   //sort 관련
-  handleChange = (e) => {
-    const { value, name } = e.target;
+  handleChange = async(e) => {
+    let { value, name } = e.target;
     const { ListActions } = this.props;
     e.preventDefault();
-    console.log({value, name}, e.currentTarget);
-    ListActions.changeRank({value, name});
-    if(name !== 'keyword'){
-      this.getRankList();
+    if(e.currentTarget.getAttribute('name') === "category"){
+      name = "category";
+      value = e.currentTarget.getAttribute("value");
     }
+    if(e.currentTarget.getAttribute('name') === "sort"){
+      name = "sort";
+      value = e.currentTarget.getAttribute("value");
+    }
+    if(name === 'keyword' && value === ''){
+      value = 0;
+    }
+    await ListActions.changeRank({value, name});
   }
+  //초기화
+  handleDefault = async (e) => {
+    
+    const{ ListActions } = this.props;
+    e.preventDefault();
+    await ListActions.getRankList({page:1, sort:0, keyword:0, category:0});
+  }
+
   //경로
   createPagePath = () => {
     const { sort, category, keyword, page } = this.props
@@ -62,18 +76,20 @@ class Dashboard extends Component {
   }
 
   componentDidUpdate(prevProps, preState) {
-    if(prevProps.page !== this.props &&
-       prevProps.keyword !== this.props.keyword &&
-      prevProps.sort !== this.props.sort){
+    if(prevProps.page !== this.props.page ||
+      prevProps.keyword !== this.props.keyword ||
+      prevProps.category !== this.props.category ||
+      prevProps.sort !== this.props.sort
+      ){
       this.getRankList();
-      document.documentElement.scrollTop = 0;
+      // document.documentElement.scrollTop = 0;
+
     }
   }
 
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
   
   render() {
-    console.log("랜더링한 내용",this.props,"local", localStorage);
     return (
       <div className="animated fadeIn">
         <ShowInfoContainer/>
@@ -99,18 +115,9 @@ class Dashboard extends Component {
                 유튜버 카테고리 {' & '} 종류
               </CardHeader>
               <CardBody>
-                <ButtonToggle value="viewCount" name="sort" onClick={this.handleChange}>
-                  조회수
-                </ButtonToggle>
-                <ButtonToggle value="subCount" name="sort" onClick={this.handleChange}>
-                  구독자
-                </ButtonToggle>
-                <ButtonToggle value="videoCount" name="sort" onClick={this.handleChange}>
-                  영상수
-                </ButtonToggle>
                 <Row>
                   <Col>
-                    <Category handleChange= {this.handleChange}/>
+                    <Category handleChange= {this.handleChange} handleDefault={this.handleDefault}/>
                   </Col>
                 </Row>
               </CardBody>    
@@ -131,7 +138,7 @@ class Dashboard extends Component {
                     <th className="text-center">RANK</th>
                     <th className="text-center"><i className="icon-people"></i></th>
                     <th className="text-center">CHANNEL</th>
-                    <th className="text-center">CUNTTRY</th>
+                    <th className="text-center">Country</th>
                     <th className="text-center">DATA</th>
                     <th className="text-center">TYPE</th>
                   </tr>

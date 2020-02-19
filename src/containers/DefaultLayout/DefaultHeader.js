@@ -12,32 +12,27 @@ const propTypes = {
   children: PropTypes.node,
 };
 
-const handleLogout = (e) => (
-  api.logout()
-)
-
 
 const defaultProps = {};
 
 class DefaultHeader extends Component {
   render() {
-
     // eslint-disable-next-line
     const { children, ...attributes } = this.props;
 
     return (
       <React.Fragment>
-        <AppSidebarToggler className="d-lg-none" display="md" mobile />
-        <AppNavbarBrand
-          full={{ src: logo, width: 89, height: 50, alt: 'CoreUI Logo' }}
-          minimized={{ src: sygnet, width: 30, height: 30, alt: 'CoreUI Logo' }}
-        />
+          <AppNavbarBrand
+            full={{ src: logo, width: 89, height: 50, alt: 'Youtube Logo' }}
+            minimized={{ src: sygnet, width: 30, height: 30, alt: 'youtube Logo' }}
+          />
+        
         <Nav className="d-sm-down-none" navbar>
           <NavItem className="px-3">
             <NavLink to="/dashboard" className="nav-link" >Dashboard</NavLink>
           </NavItem>
           <NavItem className="px-3">
-            <Link to="/users" className="nav-link">등록된 유튜버</Link>
+          {this.props.isAuthenticated && <Link to="/users" className="nav-link">등록된 유튜버</Link>}
           </NavItem>
         </Nav>
         <Nav className="ml-auto" navbar>
@@ -48,10 +43,16 @@ class DefaultHeader extends Component {
               </span>
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem divider />
+              {!this.props.isAuthenticated? 
+              <>
               <DropdownItem><Link to="/login"><i className="fa fa-shield"></i>Login</Link></DropdownItem>
               <DropdownItem><Link to="/register"><i className="fa fa-user"></i>Register</Link></DropdownItem>
-              <DropdownItem onClick={handleLogout}><i className="fa fa-lock"></i> Logout</DropdownItem>
+              </>
+               : 
+              <DropdownItem onClick={this.props.onLogout}><i className="fa fa-lock"></i> Logout</DropdownItem>
+               }
+              
+              
             </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>        

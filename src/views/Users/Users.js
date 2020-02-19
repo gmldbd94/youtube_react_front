@@ -1,66 +1,82 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table, Container,Modal, ModalBody, ModalFooter, ModalHeader, Button} from 'reactstrap';
+import { Badge, Card, CardBody, CardHeader, Col, Row, Table, Container } from 'reactstrap';
 import * as listActions from '../../store/modules/list';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PaginationView from '../../Components/Pagination';
 import { format_date } from '../../Components/Hook/SimpleData';
 import AddYoutuber from '../../Components/Admin/AddYoutuber';
+import EditYoutuber from '../../Components/Admin/EditYoutuber_modal';
 import Wrapper from '../../Components/Common/Wrapper';
+import RemoveYoutuber from '../../Components/Admin/RemoveYoutuber_modal';
+import styled from 'styled-components';
+
+const Pointer = styled.span`
+  cursor: pointer;
+`;
 
 function UserRow(props) {
   const set_createdAt = format_date(props.user.get('createdAt'));
-  if(props.user.get('maxPage')){
-    return(<></>);
-  }
-  else{
-    return (
-      <tr id={props.user.get('id')} >
-        <th scope="row">{props.index+1+(props.page-1)*10}</th>
-        <td>{props.user.get('name')}</td>
-        <td>{set_createdAt}</td>
-        <td>{props.user.get('category')? props.user.get('category'): "관리자"}</td>
-        <td>{props.user.get('type')}</td>
-        {props.user.get('category')?
-        <td>
-          <Badge className="mr-1" color="primary" onClick={props.onClickEdit}>수정</Badge>
-          <Badge className="mr-1" color="danger" onClick={props.onClickRemove}>삭제</Badge>
-        </td> 
-        :
-         <td></td>}
-      </tr>
-    )
-  }
+  return (
+    <tr id={props.user.get('id')} >
+      <th scope="row">{props.index+1+(props.page-1)*10}</th>
+      <td>{props.user.get('name')}</td>
+      <td>{set_createdAt}</td>
+      <td>{props.user.get('category')? props.user.get('category'): "관리자"}</td>
+      <td>{props.user.get('type')}</td>
+      {props.user.get('category')?
+      <td>
+        <Pointer>
+          <Badge 
+            youtuber_id={props.user.get('id')} 
+            youtuber_name={props.user.get('name')}
+            youtuber_category={props.user.get('category')}
+            className="mr-1" 
+            color="primary" 
+            onClick={props.onClickEdit}>
+              수정
+          </Badge>
+          <Badge youtuber_id={props.user.get('id')} className="mr-1" color="danger" onClick={props.onClickRemove}>삭제</Badge>
+        </Pointer>
+      </td> 
+      :
+        <td></td>
+      }
+    </tr>
+  )
 }
-
-
-
 
 class Users extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
-      primary: false,
-      danger: false,
+      youtuber: null,
+      edit: false,
+      remove: false,
       message: ""
     };
-    this.togglePrimary = this.togglePrimary.bind(this);
-    this.toggleDanger = this.toggleDanger.bind(this);
+    this.toggleEdit = this.toggleEdit.bind(this);
+    this.toggleRemove = this.toggleRemove.bind(this);
   }
   
 
   //유튜버 수정
-  togglePrimary() {
+  toggleEdit = (e) => {
+    e.preventDefault();
     this.setState({
-      primary: !this.state.primary,
+      edit: !this.state.edit,
+      id: e.currentTarget.getAttribute('youtuber_id'),
+      name: e.currentTarget.getAttribute('youtuber_name'),
+      category: e.currentTarget.getAttribute('youtuber_category')
     });
   }
   //유튜버 삭제
-  toggleDanger() {
+  toggleRemove = (e) => {
+    e.preventDefault();
     this.setState({
-      danger: !this.state.danger,
+      remove: !this.state.remove,
+      id: e.currentTarget.getAttribute('youtuber_id'),
     });
   }
 
@@ -98,37 +114,19 @@ class Users extends Component {
     return (
       <div className="animated fadeIn">
         {/* 모달관련 수정*/}
-        <Modal isOpen={this.state.primary} toggle={this.togglePrimary}
-                className={'modal-primary ' + this.props.className}>
-          <ModalHeader toggle={this.togglePrimary}>Modal title</ModalHeader>
-          <ModalBody>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.togglePrimary}>Do Something</Button>{' '}
-            <Button color="secondary" onClick={this.togglePrimary}>Cancel</Button>
-          </ModalFooter>
-        </Modal>
+        <EditYoutuber 
+          isOpen={this.state.edit} 
+          toggle={this.toggleEdit} 
+          id={this.state.id}
+          name={this.state.name}
+          category={this.state.category}
+        />
         {/* 모달관련 삭제 */}
-        <Modal isOpen={this.state.danger} toggle={this.toggleDanger}
-              className={'modal-danger ' + this.props.className}>
-        <ModalHeader toggle={this.toggleDanger}>Modal title</ModalHeader>
-        <ModalBody>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-          et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </ModalBody>
-        <ModalFooter>
-          <Button color="danger" onClick={this.toggleDanger}>Do Something</Button>{' '}
-          <Button color="secondary" onClick={this.toggleDanger}>Cancel</Button>
-        </ModalFooter>
-      </Modal>
+        <RemoveYoutuber
+          isOpen={this.state.remove}
+          toggle={this.toggleRemove}
+          id={this.state.id}
+        />
 
         <Row>
           <Col xl={6}>
@@ -155,8 +153,8 @@ class Users extends Component {
                         index={index} 
                         user={user} 
                         page={this.props.page}
-                        onClickRemove={this.toggleDanger}
-                        onClickEdit={this.togglePrimary}
+                        onClickRemove={this.toggleRemove}
+                        onClickEdit={this.toggleEdit}
                       />
                     )}
                   </tbody>
@@ -173,9 +171,9 @@ class Users extends Component {
               </CardBody>
             </Card>
           </Col>
-        </Row>
-        <Row>
-          <AddYoutuber/>
+          <Col lg={6} md={12} xs={12}>
+            <AddYoutuber/>
+          </Col>
         </Row>
       </div>
     )

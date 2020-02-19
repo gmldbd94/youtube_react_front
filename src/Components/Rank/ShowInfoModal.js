@@ -9,7 +9,7 @@ const ShowInfoModal = ({visible, info, onCancel}) => {
         {info}
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={onCancel}>Do Something</Button>{' '}
+        <Button color="primary" onClick={onCancel}>Do Something</Button>
         <Button color="secondary" onClick={onCancel}>Cancel</Button>
       </ModalFooter>
     </Modal>

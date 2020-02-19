@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { mapToCssModules } from 'reactstrap/lib/utils';
 import styled from 'styled-components';
-const RedSpan = styled.span `
-  color: "#CC0000l";
-`;
-const BlueSpan = styled.span `
-  color: "#065FD4";
-`;
+import { Row, Col } from 'reactstrap';
+import Center from '../Common/Center';
+
 
 const propTypes = {
   children: PropTypes.node,
@@ -16,6 +13,14 @@ const propTypes = {
   cssModule: PropTypes.object,
   dataBox: PropTypes.func,
 };
+
+const BoxWrapper = styled.div `
+  min-height: 30vh;
+`;
+
+const InfoWrapper = styled.div `
+  width: auto;
+`
 
 const defaultProps = {
   dataBox: () => ({ variant: 'facebook', friends: '-', feeds: '-' }),
@@ -34,34 +39,32 @@ class Widget03 extends Component {
     const data = dataBox();
     const variant = data.variant;
 
-    if (!variant ) {
-      return (null); 
-    }
-    const back = 'bg-' + variant;
     const keys = Object.keys(data);
     const vals = Object.values(data);
 
-    const classCard = 'brand-card';
-    const classCardHeader = classNames(`${classCard}-header`, back);
-    const classCardBody = classNames(`${classCard}-body`);
-    const classes = mapToCssModules(classNames(classCard, className), cssModule);
-
     return (
-      <div className={classes}>
-        <div className={classCardHeader}>
-          {children}
-        </div>
-        <div className={classCardBody}>
+      <BoxWrapper>
           <div>
-            <div className="text-value">{vals[1]}</div>
-            <div className="text-uppercase text-muted small">{keys[1]}</div>
+            {children}
           </div>
-          <div>
-            <div className="text-value">{vals[2]}</div>
-            <div className="text-uppercase text-muted small">{keys[2]}</div>
-          </div>
-        </div>
-      </div>
+          <InfoWrapper>
+            <Row>
+              <Col>
+                <Center>
+                  <div className="text-value">{vals[1]}</div>
+                  <div className="text-uppercase text-muted small">{keys[1]}</div>
+                </Center>
+              </Col>
+              <Col>
+                <Center>
+                  <div className="text-value">{vals[2]}</div>
+                  <div className="text-uppercase text-muted small">{keys[2]}</div>
+                </Center>
+              </Col> 
+            </Row>
+          </InfoWrapper>
+        
+      </BoxWrapper>
     );
   }
 }

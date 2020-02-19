@@ -16,18 +16,13 @@ class Login extends Component {
     AuthActions.changeInput({value, name, form});
   }
 
-  handleonSubmit = (e) => {
+  handleonSubmit = async (e) => {
     e.preventDefault();
     const {id, pw} = this.props;
     const {AuthActions} = this.props;
 
-    AuthActions.login({id, pw})
-    .then(()=>{
-      this.props.history.push('/')
-    })
-    .catch((error)=>{
-      console.log(error);
-    })
+    await AuthActions.login({id, pw});
+    this.props.history.push('/')
   };
   
   render() {
