@@ -25,12 +25,10 @@ import ShowInfoContainer from '../../containers/Rank/ShowInfoContainer';
 import Category from '../../Components/Rank/category';
 import Wrapper from '../../Components/Common/Wrapper';
 class Dashboard extends Component {
-
-  //sort 관련
+  //카테고리검색 관련
   handleChange = async(e) => {
     let { value, name } = e.target;
     const { ListActions } = this.props;
-    e.preventDefault();
     if(e.currentTarget.getAttribute('name') === "category"){
       name = "category";
       value = e.currentTarget.getAttribute("value");
@@ -42,11 +40,12 @@ class Dashboard extends Component {
     if(name === 'keyword' && value === ''){
       value = 0;
     }
+    console.log(value);
     await ListActions.changeRank({value, name});
   }
+  
   //초기화
   handleDefault = async (e) => {
-    
     const{ ListActions } = this.props;
     e.preventDefault();
     await ListActions.getRankList({page:1, sort:0, keyword:0, category:0});
@@ -58,6 +57,7 @@ class Dashboard extends Component {
     return `?sort=${sort}&category=${category}&keyword=${keyword}&page=${page}`
   }
 
+
   //info모달 관련
   handleModal = (e) => {
     const { value, name } = e.target;
@@ -65,25 +65,32 @@ class Dashboard extends Component {
     ModalActions.ShowInfoModal({value, name});
   }
 
-  //리덕스 관련
+  //리스트갱신
   getRankList = () =>{
     const { page, sort, category, keyword, ListActions } = this.props
     ListActions.getRankList({page,sort,category,keyword});
   }
 
+  //찾기버튼
+  onClickSearch = async(e) => {
+    const { ListActions } = this.props;
+    await ListActions.changeRank({value:"1", name:"page"})
+    this.getRankList();
+  }  
+  //처음 화면에 떳을때
   componentDidMount(){
     this.getRankList();
   }
 
-  componentDidUpdate(prevProps, preState) {
+  //다시한번 확인
+  componentDidUpdate(prevProps, prevState) {
     if(prevProps.page !== this.props.page ||
-      prevProps.keyword !== this.props.keyword ||
       prevProps.category !== this.props.category ||
       prevProps.sort !== this.props.sort
       ){
-      this.getRankList();
+        this.getRankList();
+        console.log('찾기중');
       // document.documentElement.scrollTop = 0;
-
     }
   }
 
@@ -101,7 +108,7 @@ class Dashboard extends Component {
                 <InputGroup>
                   <Input id="appendedInputButton" size="16" type="text" name="keyword" onChange={this.handleChange} />
                   <InputGroupAddon addonType="append">
-                      <Button color="secondary" onClick={this.getRankList}>찾기!</Button>
+                      <Button color="secondary" onClick={this.onClickSearch}>찾기!</Button>
                   </InputGroupAddon>
                 </InputGroup>
               </div>
@@ -141,6 +148,7 @@ class Dashboard extends Component {
                     <th className="text-center">Country</th>
                     <th className="text-center">DATA</th>
                     <th className="text-center">TYPE</th>
+                    
                   </tr>
                   </thead>                  
                     {/* <RankListContainer lists={this.props.lists}/> */}

@@ -5,10 +5,10 @@ const User = React.lazy(() => import('./views/Users/User'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
-  { path: '/', exact: true, name: 'Home', component: Dashboard },
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
-  { path: '/users', exact: true,  name: 'Users', component: Users },
-  { path: '/user/:id', name: 'User Details', component: User },
+  { path: '/', exact: true, name: 'Home', needLogged: false, component: Dashboard },
+  { path: '/dashboard', name: 'Dashboard', needLogged: false, component: Dashboard },
+  { path: '/users', exact: true,  name: 'Users', needLogged:true, component: Users },
+  { path: '/user/:id', name: 'User Details', needLogged: false, component: User },
 ];
 
 export default routes;

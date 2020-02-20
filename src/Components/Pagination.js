@@ -1,10 +1,6 @@
 import React from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import { Link } from 'react-router-dom';
-
-
 const PaginationView = ({page, maxPage, onClick}) => {
-  console.log("maxPage", maxPage);
   const showPageNum = (page, index) => {
     if(page+index <= maxPage && page+index > 0){
       

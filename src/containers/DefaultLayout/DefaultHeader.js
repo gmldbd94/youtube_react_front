@@ -23,10 +23,10 @@ class DefaultHeader extends Component {
     return (
       <React.Fragment>
           <AppNavbarBrand
+            href="/"
             full={{ src: logo, width: 89, height: 50, alt: 'Youtube Logo' }}
             minimized={{ src: sygnet, width: 30, height: 30, alt: 'youtube Logo' }}
-          />
-        
+          />         
         <Nav className="d-sm-down-none" navbar>
           <NavItem className="px-3">
             <NavLink to="/dashboard" className="nav-link" >Dashboard</NavLink>
@@ -45,8 +45,8 @@ class DefaultHeader extends Component {
             <DropdownMenu right>
               {!this.props.isAuthenticated? 
               <>
-              <DropdownItem><Link to="/login"><i className="fa fa-shield"></i>Login</Link></DropdownItem>
-              <DropdownItem><Link to="/register"><i className="fa fa-user"></i>Register</Link></DropdownItem>
+              <DropdownItem onClick={this.props.onLogin}><i className="fa fa-shield"></i>Login</DropdownItem>
+              <DropdownItem onClick={this.props.onRegister}><i className="fa fa-user"></i>Register</DropdownItem>
               </>
                : 
               <DropdownItem onClick={this.props.onLogout}><i className="fa fa-lock"></i> Logout</DropdownItem>

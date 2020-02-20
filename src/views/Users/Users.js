@@ -109,8 +109,8 @@ class Users extends Component {
   }
 
   render() {
-    console.log(this.props);
     const userList = this.props.lists;
+    
     return (
       <div className="animated fadeIn">
         {/* 모달관련 수정*/}

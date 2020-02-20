@@ -26,13 +26,29 @@ const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
 
-  loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+  // loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+  loading = () => (
+    <div className="sk-folding-cube">
+      <div className="sk-cube1 sk-cube"></div>
+      <div className="sk-cube2 sk-cube"></div>
+      <div className="sk-cube4 sk-cube"></div>
+      <div className="sk-cube3 sk-cube"></div>
+    </div>
+  )
 
   logout = async (e) => {
     e.preventDefault();
     const { AuthActions } = this.props;
     await AuthActions.logout();
     window.location.href = "/";
+  }
+  login = async (e) => {
+    e.preventDefault();
+    window.location.href = "#/login";
+  }
+  register = async (e) => {
+    e.preventDefault();
+    window.location.href = "#/register";
   }
   check_login = async () => {
     const { AuthActions } = this.props;
@@ -43,11 +59,12 @@ class DefaultLayout extends Component {
   }
   
   render() {
+    console.log(this.props);
     return (
       <div className="app">
         <AppHeader fixed>
           <Suspense  fallback={this.loading()}>
-            <DefaultHeader onLogout={this.logout} isAuthenticated={this.props.isAuthenticated}/>
+            <DefaultHeader onLogout={this.logout} onLogin={this.login} onRegister={this.register} isAuthenticated={this.props.isAuthenticated}/>
           </Suspense>
         </AppHeader>
         <Banner text={"안녕하세요"}/>
@@ -58,20 +75,37 @@ class DefaultLayout extends Component {
               <Suspense fallback={this.loading()}>
                 <Switch>
                   {routes.map((route, idx) => {
-                    
-                    return route.component ? (
-                      <Route
-                        key={idx}
-                        path={route.path}
-                        exact={route.exact}
-                        name={route.name}
-                        render={props => (
-                          <route.component {...props} />
-                        )} />
-                    ) : (null);
+                    if(route.needLogged){
+                      if(this.props.isAuthenticated){
+                        return route.component ? (
+                          <Route
+                            key={idx}
+                            path={route.path}
+                            exact={route.exact}
+                            name={route.name}
+                            render={props => (
+                              <route.component {...props} />
+                            )} />
+                        ) : (null);
+                      }
+                      else{
+                        
+                      }
+                    }else{
+                      return route.component ? (
+                        <Route
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          name={route.name}
+                          render={props => (
+                            <route.component {...props} />
+                          )} />
+                      ) : (null);
+                    }
                   })}
                   {/* 해당 대쉬보드 */}
-                  {/* <Redirect from="/" to="/dashboard" /> */}
+                  <Redirect from="/" to="/dashboard" />
                 </Switch>
               </Suspense>
             </Container>

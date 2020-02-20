@@ -23,7 +23,7 @@ export const getAdminList = createAction(GET_ADMIN_LIST, api.adminList, meta => 
 // initial state
 const initialState = Map({
   lists: List(),
-  maxPage: null,
+  maxPage: 1,
   page: 1,
   sort: 0,
   category: 0,
@@ -35,6 +35,7 @@ export default handleActions({
   [INITIALIZE]: (state, action) => initialState,
   [CHANGE_RANK]: (state, action) => {
     const { name, value } = action.payload;
+    console.log(action.payload);
     if(name === 'page'){
       return state.set(name, parseInt(value,10))
     }else{
@@ -47,19 +48,14 @@ export default handleActions({
     onSuccess: (state, action) => {
       const {data : lists} = action.payload;
       const info = fromJS(lists.result);
-      console.log(info);
+      console.log(action.meta);
       const {sort, category, keyword, page} = action.meta;
-      if(sort && category && keyword && page){
-        return state.set('lists', info) 
+      return state.set('lists', info) 
                   .set('sort', sort)
                   .set('category', category)
                   .set('keyword', keyword)
                   .set('page', parseInt(page,10))                
                   .set('maxPage', lists.maxPage);
-      }else{
-        return state.set('lists', info)
-                    .set('maxPage', lists.maxPage);
-      }
     },
   }),
 
