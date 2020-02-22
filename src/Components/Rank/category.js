@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { ButtonToggle, Row, Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import styled from 'styled-components';
-import color from '../../Styles/BrandColor';
 import categoryList from '../Hook/categoryList';
+
 const Wrapper = styled.div`
   display: flex;
   align-items: center;

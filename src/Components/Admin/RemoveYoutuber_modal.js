@@ -6,11 +6,6 @@ import {
 } from 'reactstrap';
 
 import * as api from '../../Lib/api';
-import styled from 'styled-components';
-
-const Label_wrapper = styled.span`
-  min-width: 10vh;
-`;
 
 class RemoveYoutuber extends Component {
   state = {
@@ -27,12 +22,10 @@ class RemoveYoutuber extends Component {
       const result = await api.youtuberRemove(this.state);
       this.setState({message: result.data});  
     } catch (error) {
-      this.setState({message: "에러 ㅠㅠ"});
+      this.setState({message: "실패"});
     } finally{
       window.location.reload(); 
-    }
-
-     
+    }  
   }
 
   render(){

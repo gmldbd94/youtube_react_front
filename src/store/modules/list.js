@@ -48,7 +48,6 @@ export default handleActions({
     onSuccess: (state, action) => {
       const {data : lists} = action.payload;
       const info = fromJS(lists.result);
-      console.log(action.meta);
       const {sort, category, keyword, page} = action.meta;
       return state.set('lists', info) 
                   .set('sort', sort)
@@ -58,7 +57,6 @@ export default handleActions({
                   .set('maxPage', lists.maxPage);
     },
   }),
-
   ...pender({
     type: GET_ADMIN_LIST,
     onSuccess: (state, action) => {

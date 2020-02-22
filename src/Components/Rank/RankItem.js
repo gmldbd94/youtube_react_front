@@ -1,26 +1,23 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { format_date } from '../Hook/SimpleData';
-import { Badge, Tooltip, Button } from 'reactstrap';
+import { Badge, Tooltip} from 'reactstrap';
 import Wrapper from '../Common/Wrapper';
 import Center from '../Common/Center';
-
+import { simple_count } from '../Hook/SimpleData';
 class TooltipItem extends React.Component {
   constructor(props) {
     super(props);
-
     this.toggle = this.toggle.bind(this);
     this.state = {
       tooltipOpen: false,
     };
   }
-
   toggle() {
     this.setState({
       tooltipOpen: !this.state.tooltipOpen,
     });
   }
-
   render() {
     return (
       <div>
@@ -36,18 +33,16 @@ class TooltipItem extends React.Component {
 class RankItem extends Component {  
   
   constructor(props) {
-    
     super(props);
-    const {VF_rank,
-      VE_rank,
-      VC_rank,
-      BC_rank} = props.list.toJS();
-
     this.toggle = this.toggle.bind(this);
     this.state = {
       tooltipOpen: [false, false],
-      
     };
+  };
+  
+  onClickItem = (e) => {
+    const id = this.props.list.get('id');
+    window.location.href = `#/user/${id}`;
   }
 
   toggle(i) {
@@ -59,7 +54,7 @@ class RankItem extends Component {
     });
   }
   render(){
-    const {list, handleClick} = this.props;
+    const {list} = this.props;
     const {
       VF_rank,
       VE_rank,
@@ -83,7 +78,6 @@ class RankItem extends Component {
         color: 'primary',
         rank: VF_rank,
         text: '시청자선호지수',
-
       },
       {
         placement: 'right',
@@ -107,7 +101,7 @@ class RankItem extends Component {
     const set_publishedAt = format_date(publishedAt);
     const set_createAt = format_date(createdAt);
     return (
-      <tr key={id} onClick={handleClick}>
+      <tr key={id} onClick={this.onClickItem}>
         
         <td  className="text-center">
           {tooltips.map((tooltip, i) => {
@@ -122,7 +116,7 @@ class RankItem extends Component {
         </Center>
          </td>
         <td className="text-center">
-          <div><Link to={`/user/${id}`}>{channel_name}</Link></div>
+          <div><h5>{channel_name}</h5></div>
           <div className="small text-muted">
             개설일자: {set_publishedAt} / 업데이트 일자: {set_createAt}
           </div>
@@ -133,10 +127,10 @@ class RankItem extends Component {
         </td>
         <td>
           <div>
-            <span>조회수 : {viewCount}</span>
+            <span>조회수 : {simple_count(viewCount)}</span>
           </div>
           <div>
-            <span>구독자 : {subCount}</span>
+            <span>구독자 : {simple_count(subCount)}</span>
           </div>
           <div>
             <span>영상 : {videoCount}</span>

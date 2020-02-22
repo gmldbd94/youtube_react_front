@@ -6,7 +6,6 @@ import {format_date, simple_count} from '../Hook/SimpleData';
 const Channel_info = ({data}) => {
   let sample;
   if(data){
-    console.log(data.createAt);
     sample = {
       channel_name: data.channel_name,
       img: data.img,

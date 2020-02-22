@@ -20,7 +20,7 @@ export const simple_count = (count) => {
     return(fix_num + "M");
   }
   if(count > 10000){
-    const fix_num = (count/1000).toFixed(2)
+    const fix_num = (count/1000).toFixed(0)
     return(fix_num + "K");
   }else{
     return comma(count);

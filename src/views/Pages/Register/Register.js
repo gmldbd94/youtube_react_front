@@ -1,5 +1,5 @@
-import React, { Component, useEffect } from 'react';
-import { Button, Card, CardBody, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import React, { Component } from 'react';
+import { Button, Card, CardBody,  Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import { connect  } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as authActions from '../../../store/modules/auth';

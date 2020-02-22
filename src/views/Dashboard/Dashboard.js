@@ -21,7 +21,6 @@ import { bindActionCreators } from 'redux';
 import * as listActions from '../../store/modules/list';
 import * as modalActions from '../../store/modules/showinfoModal';
 import RankList from '../../Components/Rank/RankList';
-import ShowInfoContainer from '../../containers/Rank/ShowInfoContainer';
 import Category from '../../Components/Rank/category';
 import Wrapper from '../../Components/Common/Wrapper';
 class Dashboard extends Component {
@@ -40,7 +39,6 @@ class Dashboard extends Component {
     if(name === 'keyword' && value === ''){
       value = 0;
     }
-    console.log(value);
     await ListActions.changeRank({value, name});
   }
   
@@ -89,7 +87,6 @@ class Dashboard extends Component {
       prevProps.sort !== this.props.sort
       ){
         this.getRankList();
-        console.log('찾기중');
       // document.documentElement.scrollTop = 0;
     }
   }
@@ -99,7 +96,6 @@ class Dashboard extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <ShowInfoContainer/>
         <Row>
           <Col>
             <FormGroup>

@@ -51,10 +51,6 @@ const auth = handleActions(
       return state.set('isAuthenticated', false)
                   .set('token', null);
     },
-
-    // [CHECK_LOGIN] : (state, action) => {
-    //   console.log("check");  
-    // },
     ...pender(
       {
         type: CHECK_LOGIN,
@@ -75,7 +71,7 @@ const auth = handleActions(
           console.log("실패");
         },
         onPending: (state, action) => {
-          console.log("pending");
+          // console.log("pending");
         },
         onCancel: (state, action) => {
           console.log("취소");
@@ -93,7 +89,6 @@ const auth = handleActions(
         return state.set('authError',true);
       },
       onFailure: (state, action) => {
-        console.log(state);
         return console.log(action.payload);
       }
     }),
@@ -102,14 +97,9 @@ const auth = handleActions(
       {
       type: LOGIN,
       onSuccess: (state, action) => {  // 로그인 성공 시
-        // const {message, token} = action.payload.data
-        
         const token = localStorage.getItem('token');
-        console.log(token);
-        console.log("로그인했졍");
         return state.set('token', token)
                     .set('isAuthenticated', true);
-        return
       }
     }),
   },initialState

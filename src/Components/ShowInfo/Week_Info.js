@@ -55,7 +55,7 @@ const Week_info = ({data}) => {
     tooltips: {
       enabled: true,
     },
-    
+    CustomTooltips,
     
     maintainAspectRatio: false
   }
