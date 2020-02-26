@@ -4,6 +4,15 @@ import { Card, CardBody, CardHeader } from 'reactstrap';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { make_week_array } from '../Hook/SimpleData';
 import color from '../../Styles/BrandColor';
+
+//반응형
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile
+} from "react-device-detect";
+
 const line = (data) => {
   let chart_data;
   if(data.length>0){
@@ -141,7 +150,14 @@ const options = {
   },
   maintainAspectRatio: false
 }
+
 const ChartLine = ({data}) => {
+  let height = 0;
+  if(isMobile){
+    height = 300;
+  }else{
+    height = 100
+  }
   return(
     <Card>
       <CardHeader>
@@ -149,7 +165,7 @@ const ChartLine = ({data}) => {
         </CardHeader>
         <CardBody>
           <div className="chart-wrapper">
-            <Line data={line(data)} options={options} />
+            <Line data={line(data)} options={options} height={height} width={400}/>
           </div>
         </CardBody>
     </Card>

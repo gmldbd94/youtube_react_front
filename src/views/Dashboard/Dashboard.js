@@ -13,7 +13,17 @@ import {
   Input,
   InputGroupAddon,
   Button,
+  CardFooter,
 } from 'reactstrap';
+
+
+//반응형
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile
+} from "react-device-detect";
 
 import PaginationView from '../../Components/Pagination';
 import { connect } from 'react-redux';
@@ -23,7 +33,29 @@ import * as modalActions from '../../store/modules/showinfoModal';
 import RankList from '../../Components/Rank/RankList';
 import Category from '../../Components/Rank/category';
 import Wrapper from '../../Components/Common/Wrapper';
+import Center from '../../Components/Common/Center';
 class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.toggle = this.toggle.bind(this);
+    if(isMobile){
+      this.state = {
+        categoryOpen: false,
+      };
+    }else{
+      this.state = {
+        categoryOpen: true,
+      }
+    }
+   
+  }
+  toggle() {
+    console.log(this.state);
+    this.setState({
+      categoryOpen: !this.state.categoryOpen,
+    });
+  }
+
   //카테고리검색 관련
   handleChange = async(e) => {
     let { value, name } = e.target;
@@ -48,13 +80,6 @@ class Dashboard extends Component {
     e.preventDefault();
     await ListActions.getRankList({page:1, sort:0, keyword:0, category:0});
   }
-
-  //경로
-  createPagePath = () => {
-    const { sort, category, keyword, page } = this.props
-    return `?sort=${sort}&category=${category}&keyword=${keyword}&page=${page}`
-  }
-
 
   //info모달 관련
   handleModal = (e) => {
@@ -111,6 +136,12 @@ class Dashboard extends Component {
             </FormGroup>
           </Col>
         </Row>
+        <MobileView>
+          <Center>
+            <span onClick={this.toggle}>카테고리 검색{this.toggle ? <> 펼치기</> : <>닫기</> } </span>
+          </Center>          
+        </MobileView>
+        { this.state.categoryOpen && (
         <Row>
           <Col>
             <Card>
@@ -126,7 +157,7 @@ class Dashboard extends Component {
               </CardBody>    
             </Card>
           </Col>
-        </Row>
+        </Row>)}
         <Row>
           <Col>
             <Card>
@@ -134,39 +165,27 @@ class Dashboard extends Component {
                 유튜버 순위 {' & '} 정보
               </CardHeader>
               <CardBody>
+                <RankList lists={this.props.lists}/>
                 
-                <Table hover responsive className="table-outline mb-0 d-none d-sm-table">
-                  <thead className="thead-light">
-                  <tr>
-                    <th className="text-center">RANK</th>
-                    <th className="text-center"><i className="icon-people"></i></th>
-                    <th className="text-center">CHANNEL</th>
-                    <th className="text-center">Country</th>
-                    <th className="text-center">DATA</th>
-                    <th className="text-center">TYPE</th>
-                    
-                  </tr>
-                  </thead>                  
-                    {/* <RankListContainer lists={this.props.lists}/> */}
-                    <RankList lists={this.props.lists}/>
-                </Table>
-                <Container>
-                  <Row>
-                    <Col sm="12" md={{ size: 4, offset:4 }}>
-                      <Wrapper>
-                        <PaginationView 
-                          page={this.props.page} 
-                          maxPage={this.props.maxPage}
-                          sort={this.props.sort}
-                          category={this.props.category}
-                          keyword={this.props.keyword}
-                          onClick={this.handleChange}
-                        />
-                      </Wrapper>
-                    </Col>
-                  </Row>
-                </Container>
-              </CardBody>
+                </CardBody>
+                <CardFooter>
+                  <Container>
+                    <Row>
+                      <Col sm="12" md={{ size: 4, offset:4 }}>
+                        <Wrapper>
+                          <PaginationView 
+                            page={this.props.page} 
+                            maxPage={this.props.maxPage}
+                            sort={this.props.sort}
+                            category={this.props.category}
+                            keyword={this.props.keyword}
+                            onClick={this.handleChange}
+                          />
+                        </Wrapper>
+                      </Col>
+                    </Row>
+                  </Container>
+                </CardFooter>
             </Card>
           </Col>
         </Row>

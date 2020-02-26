@@ -67,3 +67,18 @@ export const comma = (num) => {
   return str;
 }
 
+export const textLengthOverCut = (txt, len, lastTxt) => {
+  if (txt =="" || txt == null){
+    return "";
+  }
+  if (len == "" || len == null) { // 기본값
+      len = 20;
+  }
+  if (lastTxt == "" || lastTxt == null) { // 기본값
+      lastTxt = "...";
+  }
+  if (txt.length > len) {
+      txt = txt.substr(0, len) + lastTxt;
+  }
+  return txt;
+}
