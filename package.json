@@ -54,7 +54,7 @@
     "transit-js": "^0.8.861"
   },
   "devDependencies": {
-    "react-scripts": "^3.3.1"
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
